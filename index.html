@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Virtual Cat Shop</title>
+    <style>
+        /* Estilo general */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Enlace de navegación */
+        nav {
+            background-color: #0056b3;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo del catálogo */
+        .catalog {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 200px;
+        }
+
+        .product img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product h2 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            color: #007BFF;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .product input {
+            width: 50px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .product button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Sección Contáctanos */
+        .contact-section {
+            background-color: #f2f2f2;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 2px solid #ddd;
+        }
+
+        .contact-section h2 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        .contact-section form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-section input, .contact-section textarea {
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .contact-section button {
+            background-color: #007BFF;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .contact-section button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cat Shop</h1>
+    </header>
+
+    <!-- Navegación -->
+    <nav>
+        <a href="#catalog">Catálogo</a>
+        <a href="#contact">Contáctanos</a>
+    </nav>
+
+    <!-- Catálogo -->
+    <section class="catalog" id="catalog">
+        <!-- Productos generados dinámicamente -->
+    </section>
+
+    <!-- Sección Contáctanos -->
+    <section class="contact-section" id="contact">
+        <h2>Contáctanos</h2>
+        <form id="contact-form">
+            <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+            <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+            <textarea id="message" name="message" rows="5" placeholder="Tu mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 - Catálogo Virtual Cat Shop</p>
+    </footer>
+
+    <script>
+        // Datos de los productos
+        const productos = [
+            { id: 1, nombre: "Collar para gato", precio: "$25.000", imagen: "images/1-collar.jpg" },
+            { id: 2, nombre: "Comida para gato", precio: "$40.000", imagen: "images/2-comida-gato.jpg" },
+            { id: 3, nombre: "Rascador", precio: "$30.000", imagen: "images/3-rascador.jpg" },
+            { id: 4, nombre: "Cama para gato", precio: "$50.000", imagen: "images/4-cama.jpg" },
+            { id: 5, nombre: "Arena para gatos", precio: "$20.000", imagen: "images/5-arena.jpg" },
+            { id: 6, nombre: "Juguete para gato", precio: "$35.000", imagen: "images/6-juguete.jpg" }
+        ];
+
+        // Referencia al contenedor del catálogo
+        const catalog = document.getElementById("catalog");
+
+        // Generar HTML para cada producto
+        productos.forEach(producto => {
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("product");
+            productDiv.innerHTML = `
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <h2>${producto.nombre}</h2>
+                <p>${producto.precio}</p>
+                <input type="number" min="1" value="1" id="cantidad-${producto.id}">
+                <button onclick="addToCart(${producto.id})">Agregar al carrito</button>
+            `;
+            catalog.appendChild(productDiv);
+        });
+
+        // Agregar producto al carrito
+        function addToCart(id) {
+            const cantidad = document.getElementById(`cantidad-${id}`).value;
+            alert(`Agregaste ${cantidad} unidad(es) del Producto ${id} al carrito.`);
+        }
+
+        // Manejar envío del formulario de contacto
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const message = document.getElementById("message").value;
+
+            alert(`Gracias, ${name}! Hemos recibido tu mensaje: "${message}" y te contactaremos pronto al correo: ${email}.`);
+        });
+    </script>
+
+</body>
+</html>
